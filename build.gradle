@@ -77,9 +77,9 @@ configure(cqrsModules) {
 //         compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: "6.0.10.Final"
         compile 'org.modelmapper:modelmapper:2.3.0'
         compile group:'org.springframework.boot', name:'spring-boot-starter-actuator', version:"${springBootVersion}"
-        compile ("org.springframework.security:spring-security-config:${springSecurityVersion}") {
-            exclude group: "org.springframework"
-        }
+//         compile ("org.springframework.security:spring-security-config:${springSecurityVersion}") {
+//             exclude group: "org.springframework"
+//         }
         compile group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: "1.5.1"
         compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.9'
 
@@ -116,9 +116,9 @@ configure(httpWebModules) {
             exclude module: 'spring-boot-starter-logging'
         }
 
-        compile ("org.springframework.boot:spring-boot-starter-oauth2-resource-server:${springBootVersion}"){
-            exclude group: "org.springframework"
-        }
+//         compile ("org.springframework.boot:spring-boot-starter-oauth2-resource-server:${springBootVersion}"){
+//             exclude group: "org.springframework"
+//         }
         compile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
         compile project(':app')
     }
@@ -171,9 +171,9 @@ configure(testSupportModules) {
 
     dependencies {
         compile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "${springBootVersion}"
-        compile ("org.springframework.security:spring-security-config:${springSecurityVersion}") {
-            exclude group: "org.springframework"
-        }
+//         compile ("org.springframework.security:spring-security-config:${springSecurityVersion}") {
+//             exclude group: "org.springframework"
+//         }
 
         compile 'org.mockito:mockito-core:2.15.0'
         compile 'org.apache.commons:commons-lang3:3.9'
