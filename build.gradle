@@ -193,4 +193,5 @@ bootJar {
     enabled = false
 }
 
+apply from: './docker.gradle'
 // apply from: "${rootDir}/contracts/build.gradle"

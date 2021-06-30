@@ -1,0 +1,45 @@
+def imageVersion = "${project.version}.${buildInformation.timestamp}-${buildInformation.revision}".replace('-SNAPSHOT', '')
+
+task buildDocker(type: Exec) {
+  commandLine 'docker', 'image', 'build', '-t', "${project.name}", '.'
+}
+
+task dockerTag {
+  def dockerRepo = System.getProperty("dockerRepo")
+  System.out.println("**************** " + imageVersion);
+
+  doLast {
+    exec {
+      commandLine 'docker', 'tag', "${project.name}:latest", "${dockerRepo}:latest"
+    }
+    exec {
+      commandLine 'docker', 'tag', "${project.name}:latest", "${dockerRepo}:${imageVersion}"
+    }
+  }
+}
+
+task dockerPush {
+  def dockerRepo = System.getProperty("dockerRepo")
+
+  doLast {
+    exec {
+      commandLine 'docker', 'push', "${dockerRepo}:latest"
+    }
+    exec {
+      commandLine 'docker', 'push', "${dockerRepo}:${imageVersion}"
+    }
+  }
+}
+
+task dockerLogin() {
+  doLast {
+//     exec {
+//       commandLine = ['sh','-c','$(aws ecr get-login --no-include-email --region ap-southeast-1)']
+//     }
+  }
+}
+
+
+tasks.buildDocker.dependsOn tasks.build, 'dockerLogin'
+tasks.dockerTag.dependsOn tasks.buildDocker
+tasks.dockerPush.dependsOn 'dockerTag', 'dockerLogin'
