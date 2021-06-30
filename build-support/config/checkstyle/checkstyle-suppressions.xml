@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC   "-//Checkstyle//DTD SuppressionXpathFilter Experimental Configuration 1.2//EN"
+        "https://checkstyle.org/dtds/suppressions_1_2_xpath_experimental.dtd">
+<suppressions>
+    <suppress checks="HideUtilityClassConstructorCheck" files="Application\.java" />
+    <suppress checks="MethodNameCheck" files=".*Test\.java" />
+    <suppress checks="MethodNameCheck" files="EntityArgumentMatcher\.java" />
+    <suppress checks="MethodNameCheck" files="EntityArgumentListItemMatcher\.java" />
+    <suppress checks="MethodNameCheck" files="Entity*Matchers\.java" />
+    <suppress checks="VisibilityModifier" files=".*Test\.java" />
+    <suppress checks="CyclomaticComplexity" files="Coupon\.java"/>
+    <suppress checks="ParameterNumber" files="GeoConfig\.java"/>
+</suppressions>

@@ -1,0 +1,19 @@
+
+ext {
+    configDir = "${rootDir}/build-support/config"
+}
+
+pmdIntegrationTest {
+    project.pmd.ruleSets = []
+    project.pmd.ruleSetFiles = files("${configDir}/pmd/test-pmd.xml")
+}
+
+checkstyleIntegrationTest {
+    classpath += configurations.compile
+    configFile = file("${configDir}/checkstyle/checkstyle.xml")
+}
+
+spotbugs {
+    includeFilter = file("${configDir}/findbugs/findbugs.xml")
+    excludeFilter = file("${configDir}/findbugs/findbugs-suppressions.xml")
+}

@@ -1,0 +1,52 @@
+ext {
+    configDir = "${rootDir}/build-support/config"
+}
+
+idea{
+    module{
+        testSourceDirs += file('src/integration-test/java')
+        testResourceDirs += file('src/integration-test/resources')
+    }
+}
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += sourceSets.main.output
+            runtimeClasspath += sourceSets.main.output
+            srcDir 'src/integration-test/java'
+        }
+
+        resources.srcDir 'src/integration-test/resources'
+
+    }
+}
+configurations {
+    integrationTestAnnotationProcessor.extendsFrom annotationProcessor
+    integrationTestImplementation.extendsFrom implementation
+    integrationTestImplementation.extendsFrom testImplementation
+    integrationTestRuntime.extendsFrom testRuntime
+    integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
+// pmdIntegrationTest {
+//     ruleSetFiles = files("${configDir}/pmd/test-pmd.xml")
+//     ruleSets     = []
+// }
+
+task integrationTest(type: Test) {
+    description = 'Runs integration tests.'
+    group = 'example'
+
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    shouldRunAfter test
+    testLogging.showStandardStreams = true
+}
+
+integrationTest.mustRunAfter test
+
+task printClasspath {
+    doLast {
+        configurations { println it }
+    }
+}

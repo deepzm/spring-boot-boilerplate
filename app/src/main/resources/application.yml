@@ -1,0 +1,66 @@
+---
+server:
+  port: 8080
+  servlet:
+    contextPath: /api/example
+
+management:
+  server:
+    port: 8081
+  endpoints:
+    metrics:
+      enabled: true
+      prometheus:
+        enabled: true
+    web:
+      exposure:
+        include: info,health,prometheus,httptrace,loggers,heapdump,threaddump,configprops
+
+logging:
+  pattern:
+    level: "%5p [%X{trace-id}] [%X{user}]"
+  level:
+    org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: ERROR
+    org.axonframework.eventhandling.TrackingEventProcessor: ERROR
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+
+spring:
+#  jpa:
+#    show-sql: false
+#    format_sql: true
+#    hibernate:
+#      ddl-auto: none
+#      jdbc:
+#        time_zone: UTC
+#        batch_size: 20
+#        batch_versioned_data: true
+#      order_inserts: true
+#      order_updates: true
+#  flyway:
+#    enabled: true
+#    locations: classpath:db/migration
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:5432/verifications-db?stringtype=unspecified
+#    username: postgres
+#    password:
+#    maxActive: 100
+#    maxIdle: 100
+#    minIdle: 10
+#    initialSize: 10
+#    maxWait: 2000
+#    validationQuery: SELECT 1
+#    validationQueryTimeout: 1
+#    testWhileIdle: true
+#    timeBetweenEvictionRunsMillis: 5000
+#    minEvictableIdleTimeMillis: 60000
+#    removeAbandoned: true
+#    removeAbandonedTimeout: 60
+#    jmx-enabled: true
+#    initializationFailFast: false
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+    serialization:
+      write-dates-as-timestamps: false
+      fail-on-empty-beans: false
+

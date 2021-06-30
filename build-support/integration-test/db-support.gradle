@@ -1,0 +1,52 @@
+ext{
+    dbContainerName='db_integration_test'
+    dbUserName='postgres'
+    dbPassword=
+    db='example-db'
+    dbPort=15432
+    dockerHost=System.getenv('DOCKER_HOST')==null?"tcp://localhost":System.getenv('DOCKER_HOST')
+    localDbHost=new URI(dockerHost).getHost()
+    integrationTestUrl='localhost'
+}
+def ecrToken=""
+
+task includePackagingBuild(type: GradleBuild) {
+    buildFile = "${rootDir}/packaging.gradle"
+}
+
+task authenticateWithAwsECR {
+    doLast {
+//         new ByteArrayOutputStream().withStream { os ->
+//             exec {
+//                 commandLine = ['sh','-c','aws ecr get-authorization-token --output text --query authorizationData[].authorizationToken | base64 --decode | cut -d: -f2']
+//                 standardOutput = os
+//             }
+//             ecrToken = os.toString()
+//         }
+    }
+}
+
+task dockerLogin(dependsOn:authenticateWithAwsECR){
+    doLast{
+//         exec{
+//             commandLine 'docker'
+//             args 'login', '-u', 'AWS', '-p', "${ecrToken}"  ,'641723775357.dkr.ecr.ap-southeast-1.amazonaws.com'
+//         }
+    }
+}
+
+task startIntegrationDatabase(type:org.gradle.ExecWait,dependsOn:dockerLogin) {
+    workingDirectory "."
+    command "docker", 'run', '--name', dbContainerName, '-e', "POSTGRES_USER=${dbUserName}",  '-e', "POSTGRES_DB=${db}", '-p', "${dbPort}:5432", 'postgres:13.3-alpine'
+    ready 'database system is ready to accept connections'
+}
+
+task stopIntegrationDatabase(type: Exec) {
+    commandLine 'bash'
+    args '-c', "docker rm -f $dbContainerName"
+}
+
+integrationTest{
+    dependsOn startIntegrationDatabase
+}
+integrationTest.finalizedBy stopIntegrationDatabase

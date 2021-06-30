@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'org.springframework.boot'
+}
+
+bootJar {
+    version =  ''
+    mainClassName = 'io.cyberia.example.Application'
+}
+
+springBoot {
+    mainClassName = 'io.cyberia.example.Application'
+}
+
+bootRun {
+    mainClass = 'io.cyberia.example.Application'
+    if ( project.hasProperty('jvmArgs') ) {
+        jvmArgs = (project.jvmArgs.split("\\s+") as List)
+    }
+}

@@ -1,0 +1,16 @@
+.gradle/
+.idea/
+build/*
+deployment/remove deploy-service.retry
+build
+*.iml
+.env
+*.ipr
+*.iws
+out
+node_modules
+.DS_Store
+*.retry
+npm-debug.log
+
+design/*.png

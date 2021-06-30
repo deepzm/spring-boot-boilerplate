@@ -1,0 +1,44 @@
+apply plugin: 'pmd'
+apply plugin: 'com.github.spotbugs'
+apply plugin: 'checkstyle'
+
+ext {
+    configDir = "${rootDir}/build-support/config"
+}
+
+pmdMain {
+    ruleSetFiles = files("${configDir}/pmd/pmd.xml")
+    ruleSets     = []
+}
+
+pmdTest {
+    ruleSetFiles = files("${configDir}/pmd/test-pmd.xml")
+    ruleSets     = []
+}
+
+checkstyle {
+    ignoreFailures = false
+    configFile = rootProject.file("build-support/config/checkstyle/checkstyle.xml")
+    configProperties = [
+            'configDir': rootProject.file("${rootDir}/build-support/config"),
+            'baseDir': rootDir
+    ]
+}
+
+spotbugsMain {
+excludeFilter = file("${configDir}/findbugs/findbugs-suppressions.xml")
+    reports {
+        html {
+            enabled = true
+        }
+    }
+}
+
+spotbugsTest {
+    excludeFilter = file("${configDir}/findbugs/findbugs-test-suppressions.xml")
+    reports {
+        html {
+            enabled = true
+        }
+    }
+}
