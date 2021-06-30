@@ -1,0 +1,19 @@
+task startDockerCompose {
+    doLast {
+        exec {
+            commandLine './run-docker.sh'
+        }
+    }
+}
+
+task runContractTest {
+    doLast {
+        exec {
+            commandLine './contracts/node_modules/.bin/dredd' , './contracts/v1/*.md' , 'http://localhost:8080'
+        }
+    }
+
+}
+
+tasks.startDockerCompose.dependsOn(':api:bootJar') 
+tasks.runContractTest.dependsOn tasks.startDockerCompose
